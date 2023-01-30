@@ -14,9 +14,9 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket = "terraform-jenkins-state-bucket-moni123"
+    bucket = "terraform-jenkins-state-bucket-mk11"
     key = "main"
     region = "ap-south-1"
-    dynamodb_table = "my-dynamo-db-table"
+    dynamodb_table = "terraform_lock"
   }
 }
