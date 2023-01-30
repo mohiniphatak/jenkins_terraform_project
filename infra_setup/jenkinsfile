@@ -47,8 +47,10 @@ pipeline {
                 }
             }
             steps {
-                script {                  
-                    sh "terraform apply -lock=true -input=false jenkins-backend.tfplan"
+                script {   
+                    dir("infra_setup") {               
+                        sh "terraform apply -lock=true -input=false jenkins-backend.tfplan"
+                    }
                 }
             } // steps
         } // stage
