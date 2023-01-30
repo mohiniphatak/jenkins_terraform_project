@@ -9,7 +9,8 @@ pipeline {
         
         stage('Terraform Plan') {
             steps {
-                script{             
+                script{      
+                        cd "infra_setup"       
                         sh "terraform init"
                         PLANSTATUS = sh(returnStatus: true, script: "terraform plan -detailed-exitcode -lock=true -out jenkins-backend.tfplan")
                         if (PLANSTATUS == 1) {
