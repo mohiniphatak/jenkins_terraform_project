@@ -38,4 +38,5 @@ pipeline {
        
     } //stages
 }
+post { always { cleanWs() } }
 }
