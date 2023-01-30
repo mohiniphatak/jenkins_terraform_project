@@ -3,6 +3,7 @@ pipeline {
     environment {
         //once you sign up for Docker hub, use that user_id here
         registry = "540866440846.dkr.ecr.ap-south-1.amazonaws.com/jenkins-terraform"
+        AWS_REGION = "ap-south-1"
         //- update your credentials ID after creating credentials for connecting to Docker Hub
         // registryCredential = 'dockerhub'
         // dockerImage = ''
@@ -18,6 +19,19 @@ pipeline {
                     }
 
                     }
+            } // steps
+        } // stage
+        stage('Docker Push to ECR') {
+            steps {
+                script {
+                    withAWS(region: AWS_REGION) {
+                          def login = ecrLogin()
+                          sh script: login, label: "Log into ECR"
+                      }
+                      sh script: "docker push $registry", label: "Push docker image"
+            // docker.withRegistry( '', registryCredential ) {
+            // dockerImage.push()
+            // }
             } // steps
         } // stage
 
