@@ -1,28 +1,57 @@
+
+CONFIG = [
+    dev: [
+        'aws_account': '540866440846',
+        'aws_region': 'ap-south-1',
+        'aws_role': 'my-ec2-terraform-role'
+    ]
+]
+
+
 pipeline {
     agent any
-   
+    parameters {
+        choice(
+            name: 'ENV',
+            choices: ['dummy', 'dev'],
+            description: 'Select Target Environment'
+        )
+    } // parameters
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '20'))
+    } // options
     
     stages {
         stage('Setup Environment') {
             steps {
                 script {
-                    
-                    AWS_REGION = 'ap-south-1'
-                    STACK_NAME = "mkmk-terraformstate"
+                    ENV = params.ENV
+                    if (ENV == null || ENV == 'CHOOSE') {
+                        currentBuild.result = 'ABORTED'
+                        error("Invalid or missing Environment: ${ENV}")
+                    }
+                    echo "Deploying to ${ENV}"
+                    ENV_CONF = CONFIG[ENV]
+                    AWS_REGION = ENV_CONF['aws_region']
+                    JENKINS_ROLE = ENV_CONF['aws_role']
+                    ACCOUNT_ID = ENV_CONF['aws_account']
+                    STACK_NAME = "${ENV}-demoproject-terraformstate"
                 } // script
             } // steps
         } // stage
         stage('Deploy') {
             steps {
-                withAWS(region: AWS_REGION) {
+                sendtoBuildHistory("Environment: ${ENV}")
+
+                withAWS(region: AWS_REGION, role: JENKINS_ROLE, roleAccount: ACCOUNT_ID) {
                     cfnUpdate(
                         stack:"${STACK_NAME}",
-                        file:"cloudformationStack/statelockinfra.yml",
+                        file:"infra_setup/cloudformationstack/statelockinfra.yml",
                         onFailure:"ROLLBACK",
                         pollInterval:5000,
                         timeoutInMinutes:10,
                         params:[
-                            'Prefix': 'tyropower',
+                            'Prefix': 'demo-project',
                             'Environment': "${ENV}"
                             ]
                         )
