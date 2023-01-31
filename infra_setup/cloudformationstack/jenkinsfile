@@ -33,7 +33,7 @@ pipeline {
                     ENV_CONF = CONFIG[ENV]
                     AWS_REGION = ENV_CONF['aws_region']
                     ACCOUNT_ID = ENV_CONF['aws_account']
-                    STACK_NAME = "${ENV}-demoproject-terraformstate"
+                    // STACK_NAME = "${ENV}-demoproject-terraformstate"
                 } // script
             } // steps
         } // stage
@@ -43,7 +43,7 @@ pipeline {
 
                 withAWS(region: AWS_REGION, roleAccount: ACCOUNT_ID) {
                     cfnUpdate(
-                        stack:"${STACK_NAME}",
+                        stack:"demoproject-terraformstate",
                         file:"infra_setup/cloudformationstack/statelockinfra.yml",
                         onFailure:"ROLLBACK",
                         pollInterval:5000,
