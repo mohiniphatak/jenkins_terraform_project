@@ -2,8 +2,7 @@
 CONFIG = [
     dev: [
         'aws_account': '540866440846',
-        'aws_region': 'ap-south-1',
-        'aws_role': 'my-ec2-terraform-role'
+        'aws_region': 'ap-south-1'
     ]
 ]
 
@@ -33,7 +32,6 @@ pipeline {
                     echo "Deploying to ${ENV}"
                     ENV_CONF = CONFIG[ENV]
                     AWS_REGION = ENV_CONF['aws_region']
-                    JENKINS_ROLE = ENV_CONF['aws_role']
                     ACCOUNT_ID = ENV_CONF['aws_account']
                     STACK_NAME = "${ENV}-demoproject-terraformstate"
                 } // script
@@ -43,7 +41,7 @@ pipeline {
             steps {
                 
 
-                withAWS(region: AWS_REGION, role: JENKINS_ROLE, roleAccount: ACCOUNT_ID) {
+                withAWS(region: AWS_REGION, roleAccount: ACCOUNT_ID) {
                     cfnUpdate(
                         stack:"${STACK_NAME}",
                         file:"infra_setup/cloudformationstack/statelockinfra.yml",
