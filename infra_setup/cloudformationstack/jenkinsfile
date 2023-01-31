@@ -1,27 +1,21 @@
 pipeline {
     agent any
-    parameters {
-        choice(
-            name: 'ENV',
-            choices: ['demo', 'prod'],
-            description: 'Select Target Environment'
-        )
-    } // parameters
-    options {
-        buildDiscarder(logRotator(numToKeepStr: '20'))
-    } // options
+    // parameters {
+    //     choice(
+    //         name: 'ENV',
+    //         choices: ['demo', 'prod'],
+    //         description: 'Select Target Environment'
+    //     )
+    // } // parameters
+    // options {
+    //     buildDiscarder(logRotator(numToKeepStr: '20'))
+    // } // options
     
     stages {
         stage('Setup Environment') {
             steps {
                 script {
-                    ENV = params.ENV
-                    if (ENV == null || ENV == 'demo') {
-                        currentBuild.result = 'ABORTED'
-                        error("Invalid or missing Environment: ${ENV}")
-                    }
-                    echo "Deploying to ${ENV}"
-                    ENV_CONF = CONFIG[ENV]
+                    
                     AWS_REGION = 'ap-south-1'
                     STACK_NAME = "mkmk-terraformstate"
                 } // script
