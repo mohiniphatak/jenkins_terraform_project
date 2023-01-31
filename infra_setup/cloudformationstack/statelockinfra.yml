@@ -21,7 +21,6 @@ Resources:
         ServerSideEncryptionConfiguration:
           - ServerSideEncryptionByDefault:
               SSEAlgorithm: 'aws:kms'
-              KMSMasterKeyID: !ImportValue CoreVPC:KmsKeys:S3:Id
       VersioningConfiguration:
         Status: Enabled
   TerraformStateBucketPolicy:
@@ -34,7 +33,7 @@ Resources:
           - Effect: Allow
             Action: 's3:*'
             Principal:
-              AWS: !Sub 'arn:aws:iam::${AWS::AccountId}:role/external-jenkins-access'
+              AWS: !Sub 'arn:aws:iam::${AWS::AccountId}:role/my-ec2-terraform-role'
             Resource: !Sub 'arn:aws:s3:::${TerraformStateBucket}/*'
       Bucket: !Ref TerraformStateBucket
   TerraformStateLockTable:
