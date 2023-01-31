@@ -1,6 +1,6 @@
-# resource "aws_s3_bucket" "s3-sink" {
-#  bucket = "bucket-created-jenkins-terraform"
-# }
+resource "aws_s3_bucket" "s3-sink" {
+ bucket = "bucket-created-jenkins-terraform-hahhahahah"
+}
 
 # resource "aws_s3_bucket" "s3-buck" {
 #  bucket = "bucket-created-jenkins-terraform-again-again"
