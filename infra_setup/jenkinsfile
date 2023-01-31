@@ -11,7 +11,7 @@ pipeline {
             steps {
                 script{      
                         dir("infra_setup") {
-                            sh "terraform init"
+                            sh "terraform init -migrate-state"
                             PLANSTATUS = sh(returnStatus: true, script: "terraform plan -detailed-exitcode -lock=true -out jenkins-backend.tfplan")
                             if (PLANSTATUS == 1) {
                                 currentBuild.result = 'ABORTED'
