@@ -1,4 +1,5 @@
 pipeline {
+    agent any
     parameters {
         choice(
             name: 'ENV',
@@ -9,11 +10,7 @@ pipeline {
     options {
         buildDiscarder(logRotator(numToKeepStr: '20'))
     } // options
-    agent {
-        docker {
-            image "$BUILD_IMAGE"
-        } // docker
-    } // agent
+    
     stages {
         stage('Setup Environment') {
             steps {
