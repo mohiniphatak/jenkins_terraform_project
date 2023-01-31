@@ -41,7 +41,7 @@ pipeline {
         // } // stage
         stage('Deploy') {
             steps {
-                sendtoBuildHistory("Environment: ${ENV}")
+                
 
                 withAWS(region: AWS_REGION, role: JENKINS_ROLE, roleAccount: ACCOUNT_ID) {
                     cfnUpdate(
