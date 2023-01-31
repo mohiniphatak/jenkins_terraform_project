@@ -22,23 +22,23 @@ pipeline {
     } // options
     
     stages {
-        stage('Setup Environment') {
-            steps {
-                script {
-                    ENV = params.ENV
-                    if (ENV == null || ENV == 'CHOOSE') {
-                        currentBuild.result = 'ABORTED'
-                        error("Invalid or missing Environment: ${ENV}")
-                    }
-                    echo "Deploying to ${ENV}"
-                    ENV_CONF = CONFIG[ENV]
-                    AWS_REGION = ENV_CONF['aws_region']
-                    JENKINS_ROLE = ENV_CONF['aws_role']
-                    ACCOUNT_ID = ENV_CONF['aws_account']
-                    STACK_NAME = "${ENV}-demoproject-terraformstate"
-                } // script
-            } // steps
-        } // stage
+        // stage('Setup Environment') {
+        //     steps {
+        //         script {
+        //             ENV = params.ENV
+        //             if (ENV == null || ENV == 'CHOOSE') {
+        //                 currentBuild.result = 'ABORTED'
+        //                 error("Invalid or missing Environment: ${ENV}")
+        //             }
+        //             echo "Deploying to ${ENV}"
+        //             ENV_CONF = CONFIG[ENV]
+        //             AWS_REGION = ENV_CONF['aws_region']
+        //             JENKINS_ROLE = ENV_CONF['aws_role']
+        //             ACCOUNT_ID = ENV_CONF['aws_account']
+        //             STACK_NAME = "${ENV}-demoproject-terraformstate"
+        //         } // script
+        //     } // steps
+        // } // stage
         stage('Deploy') {
             steps {
                 sendtoBuildHistory("Environment: ${ENV}")
