@@ -19,9 +19,9 @@ variable "ecs_task_execution_role_name" {
         default = "ecsTaskExecutionRole"
 }
 
-variable "s3_bucket_name" {
-    type = string
-}
+# variable "s3_bucket_name" {
+#     type = string
+# }
 
 # variable "remote_state_key" {
 #   type = string
