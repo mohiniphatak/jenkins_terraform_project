@@ -10,7 +10,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    dir("infra_setup/deploy_image") {
+                    dir("deploy_image/") {
                         dockerImage = docker.build registry 
                     }
 

@@ -44,7 +44,7 @@ pipeline {
                 withAWS(region: AWS_REGION, roleAccount: ACCOUNT_ID) {
                     cfnUpdate(
                         stack:"demoproject-terraformstate",
-                        file:"infra_setup/cloudformationstack/statelockinfra.yml",
+                        file:"cloudformationstack/statelockinfra.yml",
                         onFailure:"ROLLBACK",
                         pollInterval:5000,
                         timeoutInMinutes:10,

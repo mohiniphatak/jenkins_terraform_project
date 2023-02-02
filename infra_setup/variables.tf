@@ -1,9 +1,3 @@
-
-
-# variable "stage_name" {
-#   type = string
-# }
-
 variable "aws_region" {
   type = string
   default = "ap-south-1"
@@ -14,19 +8,31 @@ variable "env" {
   default	= "Test"
 }
 
-
 variable "project_name" {
     type = string
     description = "Project Name"
     default	= "JenkinsTerraform"
 }
 
-# variable "sqs_name" {
-#         description = "Name of the sqs queue to be created. You can assign any unique name for the Queue"
-#         default = "my-first-sqs"
-# }
+variable "ecs_task_execution_role_name" {
+        description = "ecs task exe role name"
+        default = "ecsTaskExecutionRole"
+}
 
+variable "s3_bucket_name" {
+    type = string
+}
 
-# variable "s3_bucket_name" {
-#     type = string
-# }
+variable "remote_state_key" {}
+variable "remote_state_bucket" {}
+variable "ecs_cluster_name" {}
+variable "ecs_domain_name" {}
+variable "internet_cidr_block" {}
+
+variable "ecs_service_name" {}
+variable "docker_image_url" {}
+variable "memory" {}
+variable "docker_container_port" {}
+variable "spring_profile" {}
+variable "desired_task_number" {}
+
