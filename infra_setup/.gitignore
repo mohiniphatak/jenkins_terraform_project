@@ -1,0 +1,6 @@
+**/.idea/*
+**.terraform*
+**/initialTemplates/conf/db*
+**/initialTemplates/conf/keys*
+**/deploy-scripts/response.txt
+**/node_modules*
