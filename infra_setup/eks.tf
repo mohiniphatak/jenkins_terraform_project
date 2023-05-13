@@ -1,26 +1,23 @@
-module "eks" {
-    source  = "terraform-aws-modules/eks/aws"
-    version = "~> 19.0"
-    cluster_name = "myapp-eks-cluster"
-    cluster_version = "1.24"
+resource "aws_eks_cluster" "example" {
+  name     = "example"
+  role_arn = aws_iam_role.example.arn
 
-    cluster_endpoint_public_access  = true
+  vpc_config {
+    subnet_ids = [aws_subnet.example1.id, aws_subnet.example2.id]
+  }
 
-    # vpc_id = module.myapp-vpc.vpc_id
-    # subnet_ids = module.myapp-vpc.private_subnets
+  # Ensure that IAM Role permissions are created before and deleted after EKS Cluster handling.
+  # Otherwise, EKS will not be able to properly delete EKS managed EC2 infrastructure such as Security Groups.
+  depends_on = [
+    aws_iam_role_policy_attachment.example-AmazonEKSClusterPolicy,
+    aws_iam_role_policy_attachment.example-AmazonEKSVPCResourceController,
+  ]
+}
 
-    tags = {
-        environment = "development"
-        application = "myapp"
-    }
+output "endpoint" {
+  value = aws_eks_cluster.example.endpoint
+}
 
-    eks_managed_node_groups = {
-        dev = {
-            min_size = 1
-            max_size = 3
-            desired_size = 2
-
-            instance_types = ["t2.small"]
-        }
-    }
+output "kubeconfig-certificate-authority-data" {
+  value = aws_eks_cluster.example.certificate_authority[0].data
 }
