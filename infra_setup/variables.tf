@@ -19,9 +19,9 @@ variable "ecs_task_execution_role_name" {
         default = "ecsTaskExecutionRole"
 }
 
-variable "vpc_cidr_block" {}
-variable "private_subnet_cidr_blocks" {}
-variable "public_subnet_cidr_blocks" {}
+# variable "vpc_cidr_block" {}
+# variable "private_subnet_cidr_blocks" {}
+# variable "public_subnet_cidr_blocks" {}
 
 # variable "s3_bucket_name" {
 #     type = string
